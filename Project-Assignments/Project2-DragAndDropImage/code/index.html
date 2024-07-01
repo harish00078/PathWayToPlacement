@@ -12,23 +12,22 @@
 
     <div class="carousel">
         <div class="carousel-items">
-            <!-- Define you carousel here -->
-            
+            <div class="carousel-item"><img src="carousel1.jpg" alt="Image 1"></div>
+            <div class="carousel-item"><img src="carousel2.jpg" alt="Image 2"></div>
         </div>
     </div>
 
     <div class="app-container">
-
-        <!-- Define your rest of the things of the Image TODO List app here -->
-        
+        <div class="dropzone" id="dropzone">
+            <input type="file" id="fileInput" multiple>
+            <p>Drag and drop images here or click to select files</p>
         </div>
-
-        <div class="file-list" id="fileList">
-            <!-- Create the space here where your uploaded image will be visible -->
-        </div>
-        
-        
     </div>
+
+    <div class="file-list" id="fileList">
+        <!-- Uploaded images will be displayed here -->
+    </div>
+    
     <script src="script.js"></script>
 </body>
 

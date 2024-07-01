@@ -1,1 +1,63 @@
-/* Write your desired css here */
+/* styles.css */
+.carousel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 20px;
+}
+
+.carousel-items {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.carousel-item {
+    min-width: 100%;
+    transition: transform 0.5s ease;
+}
+
+.app-container {
+    text-align: center;
+}
+
+.dropzone {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.dropzone.dragover {
+    border-color: #000;
+}
+
+.file-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+.file-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.file-item textarea {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.file-item .actions {
+    display: flex;
+    gap: 10px;
+}
