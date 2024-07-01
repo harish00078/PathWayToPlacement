@@ -4,44 +4,44 @@ document.addEventListener("DOMContentLoaded", function () {
   const fileList = document.getElementById("fileList");
   const MAX_IMAGES = 5;
 
-  loadFromLocalStorage();
-
-  dropzone.addEventListener('dragover', (event) => {
-      event.preventDefault();
-      dropzone.classList.add('dragover');
+  // Dropzone functionality
+  dropzone.addEventListener("dragover", function (e) {
+      e.preventDefault();
+      dropzone.classList.add("dragover");
   });
 
-  dropzone.addEventListener('dragleave', () => {
-      dropzone.classList.remove('dragover');
+  dropzone.addEventListener("dragleave", function () {
+      dropzone.classList.remove("dragover");
   });
 
-  dropzone.addEventListener('drop', (event) => {
-      event.preventDefault();
-      dropzone.classList.remove('dragover');
-      handleFiles(event.dataTransfer.files);
+  dropzone.addEventListener("drop", function (e) {
+      e.preventDefault();
+      dropzone.classList.remove("dragover");
+      handleFiles(e.dataTransfer.files);
   });
 
-  dropzone.addEventListener('click', () => {
+  dropzone.addEventListener("click", function () {
       fileInput.click();
   });
 
-  fileInput.addEventListener('change', () => {
+  fileInput.addEventListener("change", function () {
       handleFiles(fileInput.files);
   });
 
   function handleFiles(files) {
-      if (fileList.children.length + files.length > MAX_IMAGES) {
-          alert('You can only upload a maximum of 5 images.');
+      const currentImages = fileList.querySelectorAll(".file-item").length;
+      if (currentImages + files.length > MAX_IMAGES) {
+          alert(`You can upload a maximum of ${MAX_IMAGES} images.`);
           return;
       }
 
-      Array.from(files).forEach(file => {
-          if (file.type.startsWith('image/') && file.size <= 1024 * 1024) {
-              displayFile(file);
-          } else {
-              alert('Only images under 1MB are allowed.');
+      for (const file of files) {
+          if (!file.type.startsWith("image/") || file.size > 5048576) {
+              alert("Only images below 5MB are allowed.");
+              continue;
           }
-      });
+          displayFile(file);
+      }
   }
 
   function displayFile(file) {
@@ -58,31 +58,29 @@ document.addEventListener("DOMContentLoaded", function () {
           div.appendChild(img);
 
           const textarea = document.createElement("textarea");
-          textarea.placeholder = "Add a description";
           div.appendChild(textarea);
 
-          const actions = document.createElement("div");
-          actions.className = "actions";
+          const actionsDiv = document.createElement("div");
+          actionsDiv.className = "actions";
 
           const checkIcon = document.createElement("span");
-          checkIcon.textContent = '✔';
-          checkIcon.addEventListener('click', () => {
-              alert('Description has been added.');
-              textarea.setAttribute('readonly', 'readonly');
+          checkIcon.innerHTML = "&#10003;";
+          checkIcon.addEventListener("click", function () {
+              alert("Description added.");
+              textarea.setAttribute("readonly", "readonly");
           });
-          actions.appendChild(checkIcon);
+          actionsDiv.appendChild(checkIcon);
 
           const deleteIcon = document.createElement("span");
-          deleteIcon.textContent = '❌';
-          deleteIcon.addEventListener('click', () => {
+          deleteIcon.innerHTML = "&#10005;";
+          deleteIcon.addEventListener("click", function () {
               fileList.removeChild(div);
               saveToLocalStorage();
           });
-          actions.appendChild(deleteIcon);
+          actionsDiv.appendChild(deleteIcon);
 
-          div.appendChild(actions);
+          div.appendChild(actionsDiv);
           fileList.appendChild(div);
-
           saveToLocalStorage();
       };
 
@@ -90,18 +88,18 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function saveToLocalStorage() {
-      const imagesData = [];
-      fileList.querySelectorAll('.file-item').forEach(item => {
-          const img = item.querySelector('img').src;
-          const description = item.querySelector('textarea').value;
-          imagesData.push({ src: img, description });
+      const data = [];
+      fileList.querySelectorAll(".file-item").forEach(item => {
+          const img = item.querySelector("img").src;
+          const description = item.querySelector("textarea").value;
+          data.push({ src: img, description });
       });
-      localStorage.setItem('storedImagesData', JSON.stringify(imagesData));
+      localStorage.setItem("storedImagesData", JSON.stringify(data));
   }
 
   function loadFromLocalStorage() {
-      const storedImagesData = JSON.parse(localStorage.getItem('storedImagesData') || '[]');
-      storedImagesData.forEach((data) => {
+      const storedImagesData = JSON.parse(localStorage.getItem("storedImagesData") || "[]");
+      storedImagesData.forEach(data => {
           const div = document.createElement("div");
           div.className = "file-item";
 
@@ -111,31 +109,32 @@ document.addEventListener("DOMContentLoaded", function () {
           div.appendChild(img);
 
           const textarea = document.createElement("textarea");
-          textarea.placeholder = "Add a description";
           textarea.value = data.description;
           div.appendChild(textarea);
 
-          const actions = document.createElement("div");
-          actions.className = "actions";
+          const actionsDiv = document.createElement("div");
+          actionsDiv.className = "actions";
 
           const checkIcon = document.createElement("span");
-          checkIcon.textContent = '✔';
-          checkIcon.addEventListener('click', () => {
-              alert('Description has been added.');
-              textarea.setAttribute('readonly', 'readonly');
+          checkIcon.innerHTML = "&#10003;";
+          checkIcon.addEventListener("click", function () {
+              alert("Description added.");
+              textarea.setAttribute("readonly", "readonly");
           });
-          actions.appendChild(checkIcon);
+          actionsDiv.appendChild(checkIcon);
 
           const deleteIcon = document.createElement("span");
-          deleteIcon.textContent = '❌';
-          deleteIcon.addEventListener('click', () => {
+          deleteIcon.innerHTML = "&#10005;";
+          deleteIcon.addEventListener("click", function () {
               fileList.removeChild(div);
               saveToLocalStorage();
           });
-          actions.appendChild(deleteIcon);
+          actionsDiv.appendChild(deleteIcon);
 
-          div.appendChild(actions);
+          div.appendChild(actionsDiv);
           fileList.appendChild(div);
       });
   }
+
+  loadFromLocalStorage();
 });
