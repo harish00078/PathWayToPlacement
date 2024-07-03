@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       for (const file of files) {
-          if (!file.type.startsWith("image/") || file.size > 5048576) {
+          if (!file.type.startsWith("image/") || file.size > Infinity) {
               alert("Only images below 5MB are allowed.");
               continue;
           }
