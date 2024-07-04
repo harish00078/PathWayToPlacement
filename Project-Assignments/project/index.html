@@ -9,17 +9,23 @@
 </head>
 
 <body>
-
-    <div class="upload-container">
-        <h1>Upload Your Image</h1>
-        <div id="dropzone">
-            Drag & Drop or <span id="clickToBrowse">Click to Browse</span>
+    <div class="carousel">
+        <div class="carousel-items">
+            <!-- Carousel items will be added dynamically via JavaScript -->
         </div>
-        <input type="file" id="fileInput" multiple style="display: none;">
     </div>
 
-    <div class="file-list" id="fileList"></div>
+    <div class="app-container">
+        <h1>Image To-Do List</h1>
+        <div id="dropzone" class="dropzone">
+            <input type="file" id="fileInput" accept="image/*" multiple hidden>
+            <p>Drag & Drop images here or <span class="browse-text">Browse</span></p>
+        </div>
 
+        <div class="file-list" id="fileList">
+            <!-- Uploaded images will be displayed here -->
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 

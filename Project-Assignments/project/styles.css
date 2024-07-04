@@ -1,97 +1,84 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 20px;
-  background-color: #f0f0f0;
+  padding: 0;
+  background: linear-gradient(45deg, #ff6b6b, #feca57);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.upload-container {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.upload-container h1 {
-  color: #ff6600;
+.carousel {
+  width: 100%;
+  overflow: hidden;
   margin-bottom: 20px;
 }
 
-#dropzone {
-  width: 100%;
+.carousel-items {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.app-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 80%;
+  max-width: 600px;
+}
+
+h1 {
+  text-align: center;
+  color: #ff6b6b;
+}
+
+.dropzone {
+  border: 2px dashed #feca57;
+  border-radius: 5px;
   padding: 20px;
   text-align: center;
-  border: 2px dashed #ccc;
-  background-color: #fafafa;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  border-radius: 10px;
+  margin-bottom: 20px;
 }
 
-#dropzone.dragover {
-  background-color: #e0e0e0;
+.dropzone.dragover {
+  background-color: #f0f0f0;
 }
 
-#clickToBrowse {
-  color: #ff6600;
-  cursor: pointer;
+.browse-text {
+  color: #ff6b6b;
   text-decoration: underline;
 }
 
 .file-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 10px;
-  margin-top: 20px;
 }
 
-.file-name {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 150px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.file-item {
+  text-align: center;
 }
 
 .thumbnail {
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
-  margin-bottom: 10px;
-}
-
-textarea {
   width: 100%;
-  resize: none;
-  margin-bottom: 10px;
-  padding: 5px;
-  border: 1px solid #ccc;
+  height: 100px;
+  object-fit: cover;
   border-radius: 5px;
 }
 
 button {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #007BFF;
+  background-color: #ff6b6b;
   color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-top: 5px;
 }
 
 button:hover {
-  background-color: #0056b3;
-}
-
-.alert {
-  color: red;
-  font-size: 14px;
+  background-color: #ff5252;
 }
