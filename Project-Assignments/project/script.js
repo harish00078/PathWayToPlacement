@@ -1,3 +1,4 @@
+
 const menu = [
     { id: 1, title: "Soup of the day", category: "starters", price: "$5", description: "Freshly made soup with seasonal ingredients",img: "https://images.pexels.com/photos/1731535/pexels-photo-1731535.jpeg?auto=compress&cs=tinysrgb&w=400" },
     { id: 2, title: "Bruschetta", category: "starters", price: "$7", description: "Grilled bread rubbed with garlic and topped with diced tomatoes, fresh basil, and mozzarella",img: "https://www.allrecipes.com/thmb/kt9t899s87rKleitZiaUwWOoNJI=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/3605381-b506207e5f494e44a7cf5c1bbe488748.jpg" },
@@ -11,7 +12,6 @@ const menu = [
     { id: 10, title: "Lemonade", category: "beverages", price: "$3", description: "Freshly squeezed lemonade", img: "https://images.unsplash.com/photo-1625200632177-c7f2aa36b768?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGVtb25hZGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" },
     { id: 11, title: "Mojito", category: "beverages", price: "$5", description: "Classic mojito with mint, lime, sugar, rum, and soda water", img: "https://images.unsplash.com/photo-1581162611863-b32e483e53a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bW9qaXRvfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" }
 ];
-
 const menuContainer = document.getElementById('menu-items');
 const searchInput = document.getElementById('search-input');
 const navLinks = document.querySelectorAll('.nav-link');
@@ -23,7 +23,7 @@ function displayMenuItems(items) {
                 <img src="${item.img}" class="card-img-top" alt="${item.title}">
                 <div class="card-body">
                     <h5 class="card-title">${item.title}</h5>
-                    <p class="card-text">${item.description}</p>
+                    <p class="card-text text-muted">${item.description}</p>
                     <p class="card-text"><strong>${item.price}</strong></p>
                 </div>
             </div>
