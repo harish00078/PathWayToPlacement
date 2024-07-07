@@ -1,3 +1,29 @@
+/* /* Ensures the video element is responsive and maintains its aspect ratio */
+#promo-video {
+    width: 150%;
+    height: 30%;
+    max-width: 100%; /* Ensures the video does not overflow its container */
+    border: 2px solid #ddd; /* Adds a light border for visual separation */
+    border-radius: 5px; /* Slightly rounds the corners */
+    margin: 20px 0; /* Adds vertical spacing around the video */
+    align-items: center;
+}
+
+/* Styles the container of the video */
+.container.mt-4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the video horizontally */
+}
+
+/* Ensures the video scales well on larger screens */
+@media (min-width: 768px) {
+    #promo-video {
+        max-width: 80%; /* Limits the width to 80% on larger screens */
+    }
+}
+
+/* Additional CSS from previous code for menu items */
 .card-img-top {
     height: 200px;
     object-fit: cover;

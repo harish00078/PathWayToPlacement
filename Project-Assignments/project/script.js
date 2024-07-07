@@ -8,55 +8,52 @@ const menu = [
     { id: 7, title: "Vegan Burger", category: "mains", price: "$10", description: "Plant-based burger served with fries", img: "https://plus.unsplash.com/premium_photo-1664648063589-76b97669bc29?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dmVnYW4lMjBidXJnZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" },
     { id: 8, title: "Caesar Salad", category: "starters", price: "$6", description: "Fresh romaine lettuce with Caesar dressing, parmesan, and croutons", img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2Vhc2FyJTIwc2FsYWR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" },
     { id: 9, title: "Spaghetti Carbonara", category: "mains", price: "$14", description: "Classic carbonara with pancetta, egg, hard cheese, and pepper", img: "https://images.unsplash.com/photo-1600803907087-f56d462fd26b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHNwYWdoZXR0aSUyMGNhcmJvbmFyYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" },
-    { id: 10, title: "Tiramisu", category: "desserts", price: "$7", description: "Italian dessert made of savoiardi dipped in coffee, layered with a whipped mixture of eggs, sugar, and mascarpone cheese", img: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dGlyYW1pc3V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" },
-    { id: 11, title: "Iced Coffee", category: "beverages", price: "$4", description: "Chilled coffee served with ice and cream", img: "https://media.istockphoto.com/id/170428990/photo/iced-mocha.webp?b=1&s=170667a&w=0&k=20&c=ItUVpbetBvrKaKcJySbepwehwa2JIJjSOqzHulpvJY0=" },
-    { id: 12, title: "Mango Lassi", category: "beverages", price: "$5", description: "Refreshing Indian drink made with mango and yogurt", img: "https://media.istockphoto.com/id/1217751214/photo/fresh-mango-lassi-and-mango-fruit.webp?b=1&s=170667a&w=0&k=20&c=Jt0J70BwVkGdirVAu78hKb-MiMzN3_GUbCz8SmGUdS8=" },
-    { id: 13, title: "Green Tea", category: "beverages", price: "$3", description: "Traditional green tea with antioxidants", img: "https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Z3JlZW4lMjB0ZWF8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" },
+    { id: 10, title: "Lemonade", category: "beverages", price: "$3", description: "Freshly squeezed lemonade", img: "https://images.unsplash.com/photo-1625200632177-c7f2aa36b768?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGVtb25hZGV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" },
+    { id: 11, title: "Mojito", category: "beverages", price: "$5", description: "Classic mojito with mint, lime, sugar, rum, and soda water", img: "https://images.unsplash.com/photo-1581162611863-b32e483e53a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bW9qaXRvfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" }
 ];
 
+const menuContainer = document.getElementById('menu-items');
+const searchInput = document.getElementById('search-input');
+const navLinks = document.querySelectorAll('.nav-link');
+
 function displayMenuItems(items) {
-    const menuContainer = document.getElementById('menu-items');
-    menuContainer.innerHTML = items.map(item => `
-        <div class="menu-item col-12 col-md-6 col-lg-4 mb-4">
+    let displayMenu = items.map(item => `
+        <div class="col-md-4 mb-4 menu-item" data-category="${item.category}">
             <div class="card">
                 <img src="${item.img}" class="card-img-top" alt="${item.title}">
                 <div class="card-body">
                     <h5 class="card-title">${item.title}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">${item.price}</h6>
                     <p class="card-text">${item.description}</p>
-                    <p class="card-text"><small class="text-muted">Category: ${item.category}</small></p>
+                    <p class="card-text"><strong>${item.price}</strong></p>
                 </div>
             </div>
         </div>
-    `).join('');
+    `);
+    displayMenu = displayMenu.join('');
+    menuContainer.innerHTML = displayMenu;
 }
 
-function filterItems(category) {
-    if (category === 'all') {
-        return menu;
-    }
-    return menu.filter(item => item.category === category);
-}
+displayMenuItems(menu);
 
-function searchItems(query) {
-    return menu.filter(item => 
-        item.title.toLowerCase().includes(query.toLowerCase()) ||
-        item.description.toLowerCase().includes(query.toLowerCase())
-    );
-}
-
-document.querySelectorAll('.nav-link[data-filter]').forEach(link => {
+navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
-        const category = e.target.dataset.filter;
-        displayMenuItems(filterItems(category));
+        const category = e.target.getAttribute('data-filter');
+        const menuCategory = menu.filter(menuItem => {
+            if (category === 'all') {
+                return true;
+            } else {
+                return menuItem.category === category;
+            }
+        });
+        displayMenuItems(menuCategory);
     });
 });
 
-document.getElementById('search-input').addEventListener('input', (e) => {
-    const query = e.target.value;
-    displayMenuItems(searchItems(query));
+searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    const filteredMenu = menu.filter(menuItem => {
+        return menuItem.title.toLowerCase().includes(searchTerm) || menuItem.description.toLowerCase().includes(searchTerm);
+    });
+    displayMenuItems(filteredMenu);
 });
-
-// Initial display
-displayMenuItems(menu);
