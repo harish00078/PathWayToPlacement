@@ -1,95 +1,92 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const startRulesDiv = document.getElementById('start-rules');
-    const startScreenDiv = document.getElementById('startScreen');
-    const quizScreenDiv = document.getElementById('quizScreen');
-    const endScreenDiv = document.getElementById('endScreen');
-    const questionDiv = document.getElementById('question');
-    const answerButtons = document.querySelectorAll('.answer');
-    const timerDiv = document.getElementById('timer');
-    const finalScoreDiv = document.getElementById('finalScore');
-    let score = 0;
-    let timer = 60;
-    let interval;
+let score = 0;
+let timer = 60;
+let interval;
 
-    document.getElementById('startQuiz').addEventListener('click', startGame);
-    document.getElementById('playAgain').addEventListener('click', startGame);
+const startRulesDiv = document.getElementById("start-rules");
+const quizScreen = document.getElementById("quizScreen");
+const endScreen = document.getElementById("endScreen");
+const questionDisplay = document.getElementById("question");
+const answersDisplay = document.getElementById("answers");
+const timerDisplay = document.getElementById("timer");
+const scoreDisplay = document.getElementById("score");
+const finalScoreDisplay = document.getElementById("finalScore");
 
-    async function startGame() {
-        score = 0;
-        timer = 60;
-        endScreenDiv.classList.add('hidden');
-        quizScreenDiv.classList.remove('hidden');
-        startRulesDiv.style.display = 'none';
-        startScreenDiv.classList.add('hidden');
-        getQuestion();
-        startTimer();
+document.getElementById("startQuiz").addEventListener("click", startQuiz);
+document.getElementById("playAgain").addEventListener("click", startQuiz);
+
+function startQuiz() {
+    score = 0;
+    timer = 60;
+    startRulesDiv.classList.add("hidden");
+    endScreen.classList.add("hidden");
+    quizScreen.classList.remove("hidden");
+    updateScore();
+    getQuestion();
+    startTimer();
+}
+
+async function getQuestion() {
+    try {
+        const response = await fetch("https://opentdb.com/api.php?amount=1&type=multiple");
+        if (!response.ok) throw new Error("API request failed");
+        const data = await response.json();
+        const question = data.results[0];
+        displayQuestion(question);
+    } catch (error) {
+        console.error("Error fetching question:", error);
+        questionDisplay.textContent = "Error loading question. Please try again.";
+        answersDisplay.innerHTML = '<button id="retryButton">Retry</button>';
+        document.getElementById("retryButton").addEventListener("click", getQuestion);
     }
+}
 
-    async function getQuestion() {
-        try {
-            console.log('Fetching question...');
-            const response = await fetch('https://opentdb.com/api.php?amount=1');
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            const data = await response.json();
-            console.log('Question fetched:', data);
-            if (!data.results || data.results.length === 0) {
-                throw new Error('No question found in the API response');
-            }
-            const question = data.results[0];
-            displayQuestion(question);
-        } catch (error) {
-            questionDiv.textContent = 'Failed to load question. Please try again.';
-            console.error('Fetch error:', error);
-        }
-    }
+function displayQuestion(question) {
+    questionDisplay.innerHTML = question.question;
+    const answers = [...question.incorrect_answers, question.correct_answer];
+    shuffleArray(answers);
+    
+    answersDisplay.innerHTML = answers.map(answer => 
+        `<button class="answer">${answer}</button>`
+    ).join("");
 
-    function displayQuestion(question) {
-        questionDiv.textContent = question.question;
-        const answers = [...question.incorrect_answers, question.correct_answer].sort(() => Math.random() - 0.5);
+    answersDisplay.querySelectorAll(".answer").forEach(button => {
+        button.addEventListener("click", () => checkAnswer(button.textContent, question.correct_answer));
+    });
+}
 
-        answerButtons.forEach((button, index) => {
-            button.textContent = answers[index];
-            button.onclick = () => {
-                if (button.textContent === question.correct_answer) {
-                    correctAnswer();
-                } else {
-                    wrongAnswer();
-                }
-                getQuestion();
-            };
-        });
-    }
-
-    function correctAnswer() {
-        score++;
+function checkAnswer(selectedAnswer, correctAnswer) {
+    if (selectedAnswer === correctAnswer) {
+        score += 10;
         updateScore();
     }
+    getQuestion();
+}
 
-    function wrongAnswer() {
-        // Optionally, handle wrong answers (e.g., display feedback)
+function updateScore() {
+    scoreDisplay.textContent = score;
+}
+
+function startTimer() {
+    clearInterval(interval);
+    interval = setInterval(() => {
+        timer--;
+        timerDisplay.textContent = `Time left: ${timer} seconds`;
+        if (timer <= 0) {
+            endGame();
+        }
+    }, 1000);
+}
+
+function endGame() {
+    clearInterval(interval);
+    quizScreen.classList.add("hidden");
+    endScreen.classList.remove("hidden");
+    finalScoreDisplay.textContent = score;
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
-
-    function updateScore() {
-        finalScoreDiv.textContent = score;
-    }
-
-    function startTimer() {
-        clearInterval(interval);  // Clear any previous intervals to avoid multiple timers
-        interval = setInterval(() => {
-            timer--;
-            timerDiv.textContent = `Time left: ${timer} seconds`;
-            if (timer <= 0) {
-                endGame();
-            }
-        }, 1000);
-    }
-
-    function endGame() {
-        clearInterval(interval);
-        quizScreenDiv.classList.add('hidden');
-        endScreenDiv.classList.remove('hidden');
-    }
-});
-
+}
