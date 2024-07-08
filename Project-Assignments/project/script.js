@@ -52,7 +52,7 @@ async function getQuestion() {
 function selectAnswer(index) {
     const isCorrect = answerButtons[index].dataset.correct === 'true';
     if (isCorrect) {
-        score++;
+        score += 10;
         updateScore();
     }
     getQuestion();
@@ -76,6 +76,6 @@ function startTimer() {
 function endGame() {
     document.getElementById('quizScreen').classList.add('hidden');
     document.getElementById('endScreen').classList.remove('hidden');
-    finalScore.innerHTML = score;
+    finalScore.innerHTML = `Your score: ${score}`;
     endMessage.innerHTML = `Your final score is ${score}. Great job!`;
 }
