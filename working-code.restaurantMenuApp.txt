@@ -1,105 +1,198 @@
-
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Menu</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Quiz App</title>
     <link rel="stylesheet" href="styles.css">
-    
 </head>
 <body>
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#">My Restaurant</a>
-        <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" id="search-input" placeholder="Search" aria-label="Search">
-        </form>
-        <div class="nav">
-            <a class="nav-link" href="#" data-filter="all">All</a>
-            <a class="nav-link" href="#" data-filter="starters">Starters</a>
-            <a class="nav-link" href="#" data-filter="mains">Mains</a>
-            <a class="nav-link" href="#" data-filter="desserts">Desserts</a>
-            <a class="nav-link" href="#" data-filter="beverages">Beverages</a>
-        </div>
-    </nav>
-
-    <div class="container mt-4">
-        <div class="row">
-            <video id="promo-video" controls autoplay loop muted>
-                <source src="https://files.codingninjas.in/restaurant-1706081051.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
     <div class="container">
-        <div class="row" id="menu-items"></div>
+        <div id="start-rules">
+            <h2>Welcome to Ninja's Quizz.</h2>
+            <h3>Rules:</h3>
+            <ul>
+                <li>Your quiz will end in 1 minute.</li>
+                <li>Your quiz will contain infinite number of questions as we are fetching them from API.</li>
+                <li>You would be provided 10 marks for every correct answer.</li>
+                <li>There is no negative marking.</li>
+                <li>At the end of the game, your score will be displayed.</li>
+            </ul>
+            <button id="startQuiz">Start Quiz</button>
+        </div>
+        <div id="quizScreen" class="hidden">
+            <div id="question"></div>
+            <div id="answers"></div>
+            <div id="timer">Time left: 60 seconds</div>
+            <div id="scoreDisplay">Score: <span id="score">0</span></div>
+        </div>
+        <div id="endScreen" class="hidden">
+            <h2>Game Over!</h2>
+            <p>Improve Your knowledge by playing it again and again.</p>
+            <p>You were excellent during the quizz.</p>
+            <p>Your score: <span id="finalScore"></span></p>
+            <button id="playAgain">Play Again</button>
+        </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
 </body>
-</html> -->
-
-const menu = [
-    { id: 1, title: "Soup of the day", category: "starters", price: "$5", description: "Freshly made soup with seasonal ingredients",img: "https://images.pexels.com/photos/1731535/pexels-photo-1731535.jpeg?auto=compress&cs=tinysrgb&w=400" },
-    { id: 2, title: "Bruschetta", category: "starters", price: "$7", description: "Grilled bread rubbed with garlic and topped with diced tomatoes, fresh basil, and mozzarella",img: "https://www.allrecipes.com/thmb/kt9t899s87rKleitZiaUwWOoNJI=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/3605381-b506207e5f494e44a7cf5c1bbe488748.jpg" },
-    { id: 3, title: "Chicken Parmesan", category: "mains", price: "$12", description: "Crispy chicken topped with tomato sauce and mozzarella, served with spaghetti",img: "https://media.gettyimages.com/id/1358831517/photo/crispy-chicken-parmesan.jpg?s=612x612&w=0&k=20&c=izCK6IforZt1WU1f467NXB-PPR0TAfEw0aoJ6d8imB0=" },
-    { id: 4, title: "Steak Frites", category: "mains", price: "$18", description: "Grilled steak served with french fries and salad" , img: "https://media.gettyimages.com/id/463889403/photo/rib-eye-steak.jpg?s=612x612&w=0&k=20&c=igQuEqd2hEwHnwIcuMbiUnQRm5T9Mwk1ASFanAq6iOk="},
-    { id: 5, title: "Chocolate Lava Cake", category: "desserts", price: "$8", description: "Warm chocolate cake with a gooey molten chocolate center, served with vanilla ice cream" , img: "https://media.istockphoto.com/id/544716244/photo/warm-chocolate-lava-cake-with-molten-center-and-red-currants.webp?b=1&s=170667a&w=0&k=20&c=6NPIcP8XUG4WwbJU-qfLOEP07aU79doAIsqZ8wic478="},
-    { id: 6, title: "Apple Pie", category: "desserts", price: "$6", description: "Classic apple pie with a flaky crust, served with whipped cream", img: "https://plus.unsplash.com/premium_photo-1666353535417-c86616951727?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8YXBwbGUlMjBwaWV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"},
-    { id: 7, title: "Vegan Burger", category: "mains", price: "$10", description: "Plant-based burger served with fries", img: "https://plus.unsplash.com/premium_photo-1664648063589-76b97669bc29?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dmVnYW4lMjBidXJnZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" },
-    { id: 8, title: "Caesar Salad", category: "starters", price: "$6", description: "Fresh romaine lettuce with Caesar dressing, parmesan, and croutons", img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2Vhc2FyJTIwc2FsYWR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" },
-    { id: 9, title: "Spaghetti Carbonara", category: "mains", price: "$14", description: "Classic carbonara with pancetta, egg, hard cheese, and pepper", img: "https://images.unsplash.com/photo-1600803907087-f56d462fd26b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHNwYWdoZXR0aSUyMGNhcmJvbmFyYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" },
-    { id: 10, title: "Tiramisu", category: "desserts", price: "$7", description: "Italian dessert made of savoiardi dipped in coffee, layered with a whipped mixture of eggs, sugar, and mascarpone cheese", img: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dGlyYW1pc3V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" },
-    { id: 11, title: "Iced Coffee", category: "beverages", price: "$4", description: "Chilled coffee served with ice and cream", img: "https://media.istockphoto.com/id/170428990/photo/iced-mocha.webp?b=1&s=170667a&w=0&k=20&c=ItUVpbetBvrKaKcJySbepwehwa2JIJjSOqzHulpvJY0=" },
-    { id: 12, title: "Mango Lassi", category: "beverages", price: "$5", description: "Refreshing Indian drink made with mango and yogurt", img: "https://media.istockphoto.com/id/1217751214/photo/fresh-mango-lassi-and-mango-fruit.webp?b=1&s=170667a&w=0&k=20&c=Jt0J70BwVkGdirVAu78hKb-MiMzN3_GUbCz8SmGUdS8=" },
-    { id: 13, title: "Green Tea", category: "beverages", price: "$3", description: "Traditional green tea with antioxidants", img: "https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Z3JlZW4lMjB0ZWF8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" },
-];
-
-function displayMenuItems(items) {
-    const menuContainer = document.getElementById('menu-items');
-    menuContainer.innerHTML = items.map(item => `
-        <div class="menu-item col-12 col-md-6 col-lg-4 mb-4">
-            <div class="card">
-                <img src="${item.img}" class="card-img-top" alt="${item.title}">
-                <div class="card-body">
-                    <h5 class="card-title">${item.title}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">${item.price}</h6>
-                    <p class="card-text">${item.description}</p>
-                    <p class="card-text"><small class="text-muted">Category: ${item.category}</small></p>
-                </div>
-            </div>
-        </div>
-    `).join('');
+</html>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
 }
 
-function filterItems(category) {
-    if (category === 'all') {
-        return menu;
+.container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+button {
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin: 5px 0;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    width: 100%;
+    text-align: left;
+}
+
+#startQuiz, #playAgain {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+}
+
+#startQuiz:hover, #playAgain:hover {
+    background-color: #45a049;
+}
+
+.answer {
+    background-color: #6c5ce7;
+    color: white;
+}
+
+.answer:hover {
+    background-color: #5b4ec7;
+}
+
+#timer {
+    background-color: #ff7675;
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#scoreDisplay {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+let score = 0;
+let timer = 60;
+let interval;
+
+const startRulesDiv = document.getElementById("start-rules");
+const quizScreen = document.getElementById("quizScreen");
+const endScreen = document.getElementById("endScreen");
+const questionDisplay = document.getElementById("question");
+const answersDisplay = document.getElementById("answers");
+const timerDisplay = document.getElementById("timer");
+const scoreDisplay = document.getElementById("score");
+const finalScoreDisplay = document.getElementById("finalScore");
+
+document.getElementById("startQuiz").addEventListener("click", startQuiz);
+document.getElementById("playAgain").addEventListener("click", startQuiz);
+
+function startQuiz() {
+    score = 0;
+    timer = 60;
+    startRulesDiv.classList.add("hidden");
+    endScreen.classList.add("hidden");
+    quizScreen.classList.remove("hidden");
+    updateScore();
+    getQuestion();
+    startTimer();
+}
+
+async function getQuestion() {
+    try {
+        const response = await fetch("https://opentdb.com/api.php?amount=1&type=multiple");
+        if (!response.ok) throw new Error("API request failed");
+        const data = await response.json();
+        const question = data.results[0];
+        displayQuestion(question);
+    } catch (error) {
+        console.error("Error fetching question:", error);
+        questionDisplay.textContent = "Error loading question. Please try again.";
+        answersDisplay.innerHTML = '<button id="retryButton">Retry</button>';
+        document.getElementById("retryButton").addEventListener("click", getQuestion);
     }
-    return menu.filter(item => item.category === category);
 }
 
-function searchItems(query) {
-    return menu.filter(item => 
-        item.title.toLowerCase().includes(query.toLowerCase()) ||
-        item.description.toLowerCase().includes(query.toLowerCase())
-    );
-}
+function displayQuestion(question) {
+    questionDisplay.innerHTML = question.question;
+    const answers = [...question.incorrect_answers, question.correct_answer];
+    shuffleArray(answers);
+    
+    answersDisplay.innerHTML = answers.map(answer => 
+        `<button class="answer">${answer}</button>`
+    ).join("");
 
-document.querySelectorAll('.nav-link[data-filter]').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const category = e.target.dataset.filter;
-        displayMenuItems(filterItems(category));
+    answersDisplay.querySelectorAll(".answer").forEach(button => {
+        button.addEventListener("click", () => checkAnswer(button.textContent, question.correct_answer));
     });
-});
+}
 
-document.getElementById('search-input').addEventListener('input', (e) => {
-    const query = e.target.value;
-    displayMenuItems(searchItems(query));
-});
+function checkAnswer(selectedAnswer, correctAnswer) {
+    if (selectedAnswer === correctAnswer) {
+        score += 10;
+        updateScore();
+    }
+    getQuestion();
+}
 
-// Initial display
-displayMenuItems(menu);
+function updateScore() {
+    scoreDisplay.textContent = score;
+}
+
+function startTimer() {
+    clearInterval(interval);
+    interval = setInterval(() => {
+        timer--;
+        timerDisplay.textContent = `Time left: ${timer} seconds`;
+        if (timer <= 0) {
+            endGame();
+        }
+    }, 1000);
+}
+
+function endGame() {
+    clearInterval(interval);
+    quizScreen.classList.add("hidden");
+    endScreen.classList.remove("hidden");
+    finalScoreDisplay.textContent = score;
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
