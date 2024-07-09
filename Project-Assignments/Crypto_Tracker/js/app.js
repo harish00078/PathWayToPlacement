@@ -22,6 +22,14 @@ const fetchCoins = async () => {
     console.error("Error while fetching coins", error);
   }
 };
+
+const handleFavClick = (coinId) =>{
+  
+}
+
+
+
+
 const displayCoins = (coins) => {
   const tableBody = document.getElementById("crypto-table-body");
   tableBody.innerHTML = "";
@@ -34,11 +42,17 @@ const displayCoins = (coins) => {
       coin.name
     }></td>
                 <td>${coin.name}</td>
-                <td>${coin.current_price}</td>
-                <td>${coin.total_volume}</td>
-                <td>${coin.market_cap}</td>
-                <td><i class="fa-regular fa-star"></i></td>
+                <td>$${coin.current_price}</td>
+                <td>$${coin.total_volume}</td>
+                <td>$${coin.market_cap}</td>
+                <td><i class="fa-regular fa-star favourite-icon" data-id="${coin.id}"></i></td>
               `;
+    row.querySelector(".favourite-icon").addEventListener("click", (event) => {
+      event.stopPropagation();
+      handleFavClick(coin.id);
+      // event.target.classList.toggle("fa-star");
+      // event.target.classList.toggle("fa-");
+    });
     tableBody.appendChild(row);
   });
 };
