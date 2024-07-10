@@ -80,9 +80,13 @@ const displayCoins = (coins) => {
 };
 
 // creating pagination:
-// IMP = we did not using pagination api-data in this application:we are simply getting the data from the api:
+// IMP = we did not using pagination api-data in this application:we are using the simple api-data:so that's why here we are trying to create pagination by ourselves.
 const renderPagination = (coins) => {
-  
+  const totalPage = math.ceil(coins.length / itemsPerPage);
+  paginationContainer.innerHTML = "";
+  for(let i = 1; i<=totalPage; i++){
+    
+  }
 }
 
 
