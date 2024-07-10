@@ -1,3 +1,8 @@
+// get the shimmer container:
+const shimmerContainer = document.querySelector(".shimmer-container");
+// get the pagination container:
+const paginationContainer = document.getElementById("pagination-container");
+
 const options = {
   method: "GET",
   headers: {
@@ -6,6 +11,8 @@ const options = {
   },
 };
 let coins = [];
+let itemsPerPage = 15;
+let currentPage = 1;
 
 // fetching the data from api:
 const fetchCoins = async () => {
@@ -23,12 +30,25 @@ const fetchCoins = async () => {
   }
 };
 
-const handleFavClick = (coinId) =>{
-  
-}
+const handleFavClick = (coinId) => {
 
+};
 
+// => function for shimmer:
+// show shimmer function:
+const showShimmer = () => {
+  shimmerContainer.style.display = "flex";
+};
+// hide shimmer function:
+const hideShimmer = () => {
+  shimmerContainer.style.display = "none";
+};
 
+const getCoinsToDisplay = (coins, page) => {
+  const start = (page - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return coins.slice(start, end);
+};
 
 const displayCoins = (coins) => {
   const tableBody = document.getElementById("crypto-table-body");
@@ -45,7 +65,9 @@ const displayCoins = (coins) => {
                 <td>$${coin.current_price}</td>
                 <td>$${coin.total_volume}</td>
                 <td>$${coin.market_cap}</td>
-                <td><i class="fa-regular fa-star favourite-icon" data-id="${coin.id}"></i></td>
+                <td><i class="fa-regular fa-star favourite-icon" data-id="${
+                  coin.id
+                }"></i></td>
               `;
     row.querySelector(".favourite-icon").addEventListener("click", (event) => {
       event.stopPropagation();
@@ -57,9 +79,23 @@ const displayCoins = (coins) => {
   });
 };
 
+// creating pagination:
+// IMP = we did not using pagination api-data in this application:we are simply getting the data from the api:
+const renderPagination = (coins) => {
+  
+}
+
+
 // showing the data:
 document.addEventListener("DOMContentLoaded", async () => {
-  coins = await fetchCoins();
-  console.log("coins:", coins);
-  displayCoins(coins);
+  try {
+    showShimmer();
+    coins = await fetchCoins();
+    displayCoins(getCoinsToDisplay(coins, currentPage));
+    hideShimmer();
+    console.log("coins:", coins);
+  } catch (error) {
+    console.log(error);
+    hideShimmer();
+  }
 });
