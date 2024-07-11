@@ -30,7 +30,23 @@ const fetchCoins = async () => {
   }
 };
 
-const handleFavClick = (coinId) => {};
+const
+
+// saving the (favourite-coins) in local storage:
+const saveFavouriteCoins = (favourites) => {
+  localStorage.setItem("favorites", JSON.stringify(favourites));
+  
+}
+
+const handleFavClick = (coinId) => {
+  console.log("fav clicked:", coinId);
+  const favourites = [];
+  favourites.push(coinId);
+  // save the (favourite-coins) in local storage:
+  saveFavouriteCoins(favourites);
+
+
+};
 
 // => function for shimmer:
 // show shimmer function:
