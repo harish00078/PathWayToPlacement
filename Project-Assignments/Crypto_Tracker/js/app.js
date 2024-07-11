@@ -1,7 +1,7 @@
 // get the shimmer container:
 const shimmerContainer = document.querySelector(".shimmer-container");
 // get the pagination container:
-const paginationContainer = document.getElementById("pagination-container");
+const paginationContainer = document.getElementById("pagination");
 
 const options = {
   method: "GET",
@@ -30,9 +30,7 @@ const fetchCoins = async () => {
   }
 };
 
-const handleFavClick = (coinId) => {
-
-};
+const handleFavClick = (coinId) => {};
 
 // => function for shimmer:
 // show shimmer function:
@@ -50,14 +48,15 @@ const getCoinsToDisplay = (coins, page) => {
   return coins.slice(start, end);
 };
 
-const displayCoins = (coins) => {
+const displayCoins = (coins, currentPage) => {
+  const start = (currentPage - 1) * itemsPerPage + 1;
   const tableBody = document.getElementById("crypto-table-body");
   tableBody.innerHTML = "";
   coins.forEach((coin, index) => {
     const row = document.createElement("tr");
 
     row.innerHTML = `           
-                <td>${index + 1}</td>
+                <td>${start + index}</td>
                 <td><img width="24" height="24" src=${coin.image}alt=${
       coin.name
     }></td>
@@ -82,20 +81,43 @@ const displayCoins = (coins) => {
 // creating pagination:
 // IMP = we did not using pagination api-data in this application:we are using the simple api-data:so that's why here we are trying to create pagination by ourselves.
 const renderPagination = (coins) => {
-  const totalPage = math.ceil(coins.length / itemsPerPage);
+  const totalPages = Math.ceil(coins.length / itemsPerPage);
   paginationContainer.innerHTML = "";
-  for(let i = 1; i<=totalPage; i++){
-    
+  for (let i = 1; i <= totalPages; i++) {
+    const pageBtn = document.createElement("button");
+    // adding the text-content with in the button:
+    pageBtn.textContent = i;
+    pageBtn.classList.add("page-button");
+    if (i === currentPage) {
+      pageBtn.classList.add("active");
+    }
+    // allow click over the button:
+    pageBtn.addEventListener("click", () => {
+      currentPage = i;
+      displayCoins(getCoinsToDisplay(coins, currentPage), currentPage);
+      updatePaginationButtons();
+    });
+    paginationContainer.appendChild(pageBtn);
   }
-}
-
+};
+const updatePaginationButtons = () => {
+  const pageBtn = document.querySelectorAll(".page-button");
+  pageBtn.forEach((button, index) => {
+    if (index + 1 === currentPage) {
+      button.classList.add("active");
+    } else {
+      button.classList.remove("active");
+    }
+  });
+};
 
 // showing the data:
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     showShimmer();
     coins = await fetchCoins();
-    displayCoins(getCoinsToDisplay(coins, currentPage));
+    displayCoins(getCoinsToDisplay(coins, currentPage), currentPage);
+    renderPagination(coins);
     hideShimmer();
     console.log("coins:", coins);
   } catch (error) {
