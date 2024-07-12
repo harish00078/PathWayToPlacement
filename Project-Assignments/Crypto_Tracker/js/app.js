@@ -52,8 +52,7 @@ const handleFavClick = (element) => {
 
   favourites.push(element.dataset.id);
   saveFavouriteCoins(favourites);
-  displayCoins(getCoinsToDisplay(coins, currentPage), currentPage);
-
+  // displayCoins(getCoinsToDisplay(coins, currentPage), currentPage);
 };
 
 // => function for shimmer:
@@ -150,3 +149,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     hideShimmer();
   }
 });
+
