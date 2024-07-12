@@ -30,25 +30,28 @@ const fetchCoins = async () => {
   }
 };
 
-const fetchFavouriteCoins = () =>{
+const fetchFavouriteCoins = () => {
   return JSON.parse(localStorage.getItem("favorites")) || [];
-}
+};
 
 // saving the (favourite-coins) in local storage:
 const saveFavouriteCoins = (favourites) => {
   localStorage.setItem("favorites", JSON.stringify(favourites));
-  
-}
+};
 
 const handleFavClick = (element) => {
-  console.log(coinId);
-  const favourites = [];
-  favourites.push(coinId);
-  console.log("favourites:", favourites);
-  // save the (favourite-coins) in local storage:
+  // The id is retrieved from the dataset of the element that was clicked.
+  // The dataset is an object of a HTML element that contains all the data-* attributes.
+  // For example, if the element was <div data-id="bitcoin">, then element.dataset.id would be "bitcoin".
+  console.log(element.dataset.id);
+
+  const favourites = fetchFavouriteCoins();
+  if (favourites.includes(element.dataset.id)) {
+    favourites = favourites.filter((id) => id !== element.dataset.id);
+  }
+
+  favourites.push(element.dataset.id);
   saveFavouriteCoins(favourites);
-
-
 };
 
 // => function for shimmer:
@@ -90,7 +93,7 @@ const displayCoins = (coins, currentPage) => {
     // row.querySelector(".favourite-icon").addEventListener("click", (event) => {
     //   event.stopPropagation();
     //   handleFavClick(coin.id);
-      
+
     // });
     tableBody.appendChild(row);
   });
