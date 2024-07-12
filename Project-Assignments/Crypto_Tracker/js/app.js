@@ -30,7 +30,9 @@ const fetchCoins = async () => {
   }
 };
 
-const
+const fetchFavouriteCoins = () =>{
+  return JSON.parse(localStorage.getItem("favorites")) || [];
+}
 
 // saving the (favourite-coins) in local storage:
 const saveFavouriteCoins = (favourites) => {
@@ -38,10 +40,11 @@ const saveFavouriteCoins = (favourites) => {
   
 }
 
-const handleFavClick = (coinId) => {
-  console.log("fav clicked:", coinId);
+const handleFavClick = (element) => {
+  console.log(coinId);
   const favourites = [];
   favourites.push(coinId);
+  console.log("favourites:", favourites);
   // save the (favourite-coins) in local storage:
   saveFavouriteCoins(favourites);
 
@@ -82,14 +85,13 @@ const displayCoins = (coins, currentPage) => {
                 <td>$${coin.market_cap}</td>
                 <td><i class="fa-regular fa-star favourite-icon" data-id="${
                   coin.id
-                }"></i></td>
+                }"onClick=handleFavClick(this)></i></td>
               `;
-    row.querySelector(".favourite-icon").addEventListener("click", (event) => {
-      event.stopPropagation();
-      handleFavClick(coin.id);
-      // event.target.classList.toggle("fa-star");
-      // event.target.classList.toggle("fa-");
-    });
+    // row.querySelector(".favourite-icon").addEventListener("click", (event) => {
+    //   event.stopPropagation();
+    //   handleFavClick(coin.id);
+      
+    // });
     tableBody.appendChild(row);
   });
 };
