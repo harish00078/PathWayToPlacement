@@ -45,13 +45,15 @@ const handleFavClick = (element) => {
   // For example, if the element was <div data-id="bitcoin">, then element.dataset.id would be "bitcoin".
   console.log(element.dataset.id);
 
-  const favourites = fetchFavouriteCoins();
+  let favourites = fetchFavouriteCoins();
   if (favourites.includes(element.dataset.id)) {
     favourites = favourites.filter((id) => id !== element.dataset.id);
   }
 
   favourites.push(element.dataset.id);
   saveFavouriteCoins(favourites);
+  displayCoins(getCoinsToDisplay(coins, currentPage), currentPage);
+
 };
 
 // => function for shimmer:
@@ -72,11 +74,13 @@ const getCoinsToDisplay = (coins, page) => {
 
 const displayCoins = (coins, currentPage) => {
   const start = (currentPage - 1) * itemsPerPage + 1;
+  const favourites = fetchFavouriteCoins();
+
   const tableBody = document.getElementById("crypto-table-body");
   tableBody.innerHTML = "";
   coins.forEach((coin, index) => {
     const row = document.createElement("tr");
-
+    const isFavourite = favourites.includes(coin.id);
     row.innerHTML = `           
                 <td>${start + index}</td>
                 <td><img width="24" height="24" src=${coin.image}alt=${
@@ -86,9 +90,9 @@ const displayCoins = (coins, currentPage) => {
                 <td>$${coin.current_price}</td>
                 <td>$${coin.total_volume}</td>
                 <td>$${coin.market_cap}</td>
-                <td><i class="fa-regular fa-star favourite-icon" data-id="${
-                  coin.id
-                }"onClick=handleFavClick(this)></i></td>
+                <td><i class="fa-solid fa-star favorite-icon ${
+                  isFavourite ? "favorite" : ""
+                }" data-id="${coin.id}"onClick=handleFavClick(this)"></i></td>
               `;
     // row.querySelector(".favourite-icon").addEventListener("click", (event) => {
     //   event.stopPropagation();
