@@ -40,6 +40,7 @@
     <!-- here we have main section -->
     <main>
       <h1>Favorites Coins</h1>
+      
       <div class="shimmer-container" style="display: none">
         <divc class="shimmer">
 
@@ -61,16 +62,20 @@
                    
                 </th>
                 <th>Market Cap</th>
+                <th>
+                    Remove
+                </th>
                 
             </tr>
         </thead>
-        <tbody>
+        <tbody id="favorite-table-body">
 
         </tbody>
       </table>
       <p id="no-favorites" style="display: none">
 there are no liked coins..
       </p>
+      
     </main>
 
     <script src="favorites.js"></script>
