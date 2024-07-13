@@ -131,6 +131,11 @@ const displayCoins = (coins, currentPage) => {
                     isFavourite ? "favorite" : ""
                   }" data-id="${coin.id}"></i></td>
                 `;
+                row.addEventListener("click", () => {
+                  
+                  window.open(`coin/coin.html?id=${coin.id}`,"_blank");
+
+                })
     row.querySelector(".favorite-icon").addEventListener("click", (event) => {
       event.stopPropagation();
       handleFavClick(coin.id);
