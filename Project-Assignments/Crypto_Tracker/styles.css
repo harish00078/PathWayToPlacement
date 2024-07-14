@@ -103,6 +103,7 @@ tr:hover {
     transform: rotate(1turn);
   }
 }
+/* pagination */
 #pagination {
   display: flex;
   justify-content: center;
@@ -120,10 +121,77 @@ tr:hover {
   background-color: #4caf50;
   color: white;
 }
+/* star or favorite */
 .favorite-icon {
   cursor: pointer;
 }
 .favorite-icon:hover,
 .favorite {
   color: gold;
+}
+
+/* Coin Container Section  */
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sidebar {
+  width: 30%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.heading {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.description {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.market-data {
+  margin-top: 20px;
+}
+
+.market-data-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.chart-section {
+  width: 65%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.button-container button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #333;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.button-container button:hover {
+  background-color: #555;
 }

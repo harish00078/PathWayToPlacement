@@ -133,7 +133,7 @@ const displayCoins = (coins, currentPage) => {
                 `;
                 row.addEventListener("click", () => {
                   
-                  window.open(`coin/coin.html?id=${coin.id}`,"_blank");
+                  window.open(`./coin/coin.html?id=${coin.id}`,"_blank");
 
                 })
     row.querySelector(".favorite-icon").addEventListener("click", (event) => {
