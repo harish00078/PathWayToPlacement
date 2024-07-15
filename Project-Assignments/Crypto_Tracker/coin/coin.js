@@ -2,14 +2,14 @@ const coinContainer = document.getElementById("coin-container");
 const coinImage = document.getElementById("coin-image");
 const coinName = document.getElementById("coin-name");
 const coinDescription = document.getElementById("coin-description");
-const shimmerContainer = document.getElementById("shimmer-container");
+const shimmerContainer = document.querySelector(".shimmer-container");
 const coinRank = document.getElementById("coin-rank");
 const coinPrice = document.getElementById("coin-price");
 const coinMarketCap = document.getElementById("coin-market-cap");
 
 const chartSection = document.getElementById("chart-section");
 const chartContainer = document.getElementById("coinChart");
-const button24 = document.getElementById("24");
+const button24 = document.getElementById("24h");
 const button30d = document.getElementById("30d");
 const button3m = document.getElementById("3m");
 
@@ -21,11 +21,11 @@ const options = {
   },
 };
 
-// get the coin-id from url-params:
+// Get the coin-id from url-params:
 const urlParam = new URLSearchParams(window.location.search);
 const coinId = urlParam.get("id");
 
-// fetching the coin-data:
+// Fetching the coin-data:
 const fetchCoinsData = async () => {
   try {
     const response = await fetch(
@@ -45,9 +45,16 @@ const displayCoinsData = (coinData) => {
   coinDescription.textContent = coinData.description.en.split(".")[0];
   coinRank.textContent = coinData.market_cap_rank;
   coinName.textContent = coinData.name;
+  coinPrice.textContent = `$${coinData.market_data.current_price.usd.toLocaleString()}`;
+  coinMarketCap.textContent = `$${coinData.market_data.market_cap.usd.toLocaleString()}`;
+
+  // Hide shimmer and show coin container
+  shimmerContainer.style.display = "none";
+  coinContainer.style.display = "flex";
 };
 
-// showing the data:
+// Show the data:
 document.addEventListener("DOMContentLoaded", async () => {
+  shimmerContainer.style.display = "flex"; // Show shimmer while data is being fetched
   await fetchCoinsData();
 });
