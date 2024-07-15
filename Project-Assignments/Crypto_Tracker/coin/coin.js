@@ -1,4 +1,3 @@
-// coin-page container section:
 const coinContainer = document.getElementById("coin-container");
 const coinImage = document.getElementById("coin-image");
 const coinName = document.getElementById("coin-name");
@@ -7,10 +6,10 @@ const shimmerContainer = document.querySelector(".shimmer-container");
 const coinRank = document.getElementById("coin-rank");
 const coinPrice = document.getElementById("coin-price");
 const coinMarketCap = document.getElementById("coin-market-cap");
-// coin-page chart section:
+
 const chartSection = document.getElementById("chart-section");
 const ctx = document.getElementById("coinChart");
-const buttonContainer = document.querySelector(".button-container button");
+const buttonContainer = document.querySelectorAll(".button-container button");
 
 const options = {
   method: "GET",
@@ -56,13 +55,13 @@ const displayCoinsData = (coinData) => {
 const coinChart = new Chart(ctx, {
   type: "line",
   data: {
-    labels: [],
+    labels: ['Red','Yellow','Blue'],
     datasets: [
       {
         label: "Price (USD)",
         data: [],
         borderWidth: 1,
-        borderColor: "eebc1d",
+        borderColor: 'rgb(75, 192, 192)', // Color needs to be in quotes
       },
     ],
   },
@@ -74,35 +73,50 @@ const coinChart = new Chart(ctx, {
     },
   },
 });
-// fetching the chart-data:
+
+// Fetching and updating chart data:
 const fetchChartData = async (days) => {
   try {
-     const response = await fetch( `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`,options);
-     const charData = await response.json();
-     console.log("charData:", charData);
-     updateChart(charData.prices);
-
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`,
+      options
+    );
+    const chartData = await response.json();
+    updateChart(chartData.prices);
   } catch (error) {
-    console.log("error while fetching chart data", error);
+    console.log("Error while fetching chart data", error);
   }
 };
+
 const updateChart = (prices) => {
   const data = prices.map((price) => price[1]);
-  const labels = price.map((price) => {
-    let data =  new Date(price[0]);
-    return data.toLocaleDateString();
+  const labels = prices.map((price) => {
+    let date = new Date(price[0]);
+    return date.toLocaleDateString();
   });
+  coinChart.data.labels = labels;
+  coinChart.data.datasets[0].data = data;
+  coinChart.update(); // Update the chart with new data
 };
 
+// Event listeners for buttons
 buttonContainer.forEach((button) => {
   button.addEventListener("click", (event) => {
     const days = event.target.id === "24h" ? 1 : event.target.id === "30d" ? 30 : 90;
     fetchChartData(days);
-  })
+  });
 });
 
-// Show the data:
+// Show the data on page load
 document.addEventListener("DOMContentLoaded", async () => {
   shimmerContainer.style.display = "flex"; // Show shimmer while data is being fetched
   await fetchCoinsData();
+  
+  // Check if the button with ID "24" exists before trying to click it
+  const button24 = document.getElementById("24h");
+  if (button24) {
+    button24.click(); // Trigger the click event on the button with ID "24"
+  } else {
+    console.error('Button with ID "24" not found.');
+  }
 });

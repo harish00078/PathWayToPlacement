@@ -146,22 +146,22 @@ tr:hover {
 /* Coin Container Section */
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 20px;
   padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar {
-  width: 100%;
-  max-width: 400px;
+  flex: 1 1 300px;
   padding: 20px;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
 }
 
 .sidebar img {
@@ -201,16 +201,11 @@ tr:hover {
 }
 
 .chart-section {
-  width: 100%;
+  flex: 2 1 500px;
   padding: 20px;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.chart-container {
-  width: 100%;
-  height: 400px; /* Set the desired height for the chart */
 }
 
 .button-container {
@@ -234,19 +229,16 @@ tr:hover {
 }
 
 /* Responsive Design */
-@media (min-width: 769px) {
+@media (max-width: 768px) {
   .container {
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .sidebar {
-    margin-bottom: 0;
-  }
-
-  .chart-section {
-    flex-grow: 1;
-    margin-left: 20px;
+  .sidebar, .chart-section {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
   }
 }
 
