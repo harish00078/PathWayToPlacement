@@ -1,3 +1,4 @@
+// coin-page container section:
 const coinContainer = document.getElementById("coin-container");
 const coinImage = document.getElementById("coin-image");
 const coinName = document.getElementById("coin-name");
@@ -6,12 +7,10 @@ const shimmerContainer = document.querySelector(".shimmer-container");
 const coinRank = document.getElementById("coin-rank");
 const coinPrice = document.getElementById("coin-price");
 const coinMarketCap = document.getElementById("coin-market-cap");
-
+// coin-page chart section:
 const chartSection = document.getElementById("chart-section");
-const chartContainer = document.getElementById("coinChart");
-const button24 = document.getElementById("24h");
-const button30d = document.getElementById("30d");
-const button3m = document.getElementById("3m");
+const ctx = document.getElementById("coinChart");
+const buttonContainer = document.querySelector(".button-container button");
 
 const options = {
   method: "GET",
@@ -50,8 +49,57 @@ const displayCoinsData = (coinData) => {
 
   // Hide shimmer and show coin container
   shimmerContainer.style.display = "none";
-  coinContainer.style.display = "flex";
+  coinContainer.style.display = "block";
 };
+
+// Display chart:
+const coinChart = new Chart(ctx, {
+  type: "line",
+  data: {
+    labels: [],
+    datasets: [
+      {
+        label: "Price (USD)",
+        data: [],
+        borderWidth: 1,
+        borderColor: "eebc1d",
+      },
+    ],
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  },
+});
+// fetching the chart-data:
+const fetchChartData = async (days) => {
+  try {
+     const response = await fetch( `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`,options);
+     const charData = await response.json();
+     console.log("charData:", charData);
+     updateChart(charData.prices);
+
+  } catch (error) {
+    console.log("error while fetching chart data", error);
+  }
+};
+const updateChart = (prices) => {
+  const data = prices.map((price) => price[1]);
+  const labels = price.map((price) => {
+    let data =  new Date(price[0]);
+    return data.toLocaleDateString();
+  });
+};
+
+buttonContainer.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    const days = event.target.id === "24h" ? 1 : event.target.id === "30d" ? 30 : 90;
+    fetchChartData(days);
+  })
+});
 
 // Show the data:
 document.addEventListener("DOMContentLoaded", async () => {

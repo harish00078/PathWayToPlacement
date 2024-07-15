@@ -5,23 +5,24 @@
   box-sizing: border-box;
 }
 
+/* Navigation Bar */
 nav {
   display: flex;
   justify-content: space-between;
   height: 86px;
-  border-bottom: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid #eee;
   align-items: center;
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
   z-index: 1000;
-  background-color: rgb(255, 255, 255);
+  background-color: #fff;
   padding: 0 20px;
 }
 
 .title {
-  color: rgb(238, 188, 29);
+  color: #eebc1d;
   text-decoration: none;
   font-weight: 600;
 }
@@ -30,6 +31,7 @@ nav {
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
+  color: #333;
 }
 
 .right-nav {
@@ -39,30 +41,31 @@ nav {
 }
 
 #search-box {
-  background-color: white;
+  background-color: #fff;
   height: 36px;
   border: none;
   outline: none;
+  padding: 0 10px;
 }
 
-/* main-section: which will contain the table */
-
+/* Main Section */
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
   margin-top: 120px;
+  width: 100%;
 }
 
+/* Table Styling */
 table {
   width: 95%;
   border-collapse: collapse;
   margin-top: 20px;
 }
 
-th,
-td {
+th, td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
@@ -70,6 +73,7 @@ td {
 
 th {
   background-color: #f4f4f4;
+  font-weight: bold;
 }
 
 tr:hover {
@@ -77,19 +81,21 @@ tr:hover {
   cursor: pointer;
 }
 
+/* Shimmer Effect */
 .shimmer-container {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgb(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
   display: none;
 }
+
 .shimmer {
   width: 70px;
   height: 70px;
@@ -98,65 +104,82 @@ tr:hover {
   -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 9px), #000 0);
   animation: spin 1s infinite linear;
 }
+
 @keyframes spin {
   to {
     transform: rotate(1turn);
   }
 }
-/* pagination */
+
+/* Pagination */
 #pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px 0px;
+  margin: 20px 0;
 }
+
 .page-button {
   margin: 0 5px;
   padding: 5px 10px;
   border: 1px solid #ccc;
-  background-color: white;
+  background-color: #fff;
   cursor: pointer;
+  border-radius: 3px;
 }
+
 .page-button.active {
   background-color: #4caf50;
-  color: white;
+  color: #fff;
 }
-/* star or favorite */
+
+/* Favorite Icon */
 .favorite-icon {
   cursor: pointer;
 }
+
 .favorite-icon:hover,
 .favorite {
   color: gold;
 }
-
-/* Coin Container Section  */
+/* Coin Container Section */
+/* Coin Container Section */
 .container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .sidebar {
-  width: 30%;
+  width: 100%;
+  max-width: 400px;
   padding: 20px;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 .sidebar img {
   width: 100%;
   border-radius: 5px;
+  margin-bottom: 20px;
 }
 
 .heading {
-  font-size: 1.2em;
+  font-size: 1.5em;
   margin: 10px 0;
+  color: #333;
 }
 
 .description {
-  font-size: 0.9em;
+  font-size: 1em;
   color: #666;
+  margin-bottom: 20px;
 }
 
 .market-data {
@@ -166,15 +189,28 @@ tr:hover {
 .market-data-item {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+}
+
+.market-data-item .heading {
+  font-size: 1em;
+  color: #333;
 }
 
 .chart-section {
-  width: 65%;
+  width: 100%;
   padding: 20px;
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container {
+  width: 100%;
+  height: 400px; /* Set the desired height for the chart */
 }
 
 .button-container {
@@ -190,8 +226,27 @@ tr:hover {
   color: #fff;
   cursor: pointer;
   border-radius: 3px;
+  transition: background-color 0.3s ease;
 }
 
 .button-container button:hover {
   background-color: #555;
 }
+
+/* Responsive Design */
+@media (min-width: 769px) {
+  .container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .sidebar {
+    margin-bottom: 0;
+  }
+
+  .chart-section {
+    flex-grow: 1;
+    margin-left: 20px;
+  }
+}
+
